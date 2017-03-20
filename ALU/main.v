@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    12:35:33 03/14/2017 
+// Create Date:    18:02:29 03/14/2017 
 // Design Name: 
-// Module Name:    ALU 
+// Module Name:    main 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,11 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module ALU(
-input	signed	[31:0]	ALU_A,	//操作数A
-input	signed	[31:0]	ALU_B,	//操作数B
-input				[4:0]		ALU_OP,	//运算符
-output reg		[31:0]	ALU_OUT	//输出
+module main(
+input				[31:0]	A,
+input				[31:0]	B,
+input				[4:0]		OP,
+output			[31:0]	OUT
     );
 
 parameter	A_NOP = 5'h00;			//空运算
@@ -33,19 +33,38 @@ parameter	A_OR	= 5'h04;			//符号或
 parameter	A_XOR = 5'h05;			//符号异或
 parameter	A_NOR	= 5'h06;			//符号或非
 
+wire	[31:0]	tempOUT1;
 
-always@(*)
-begin
-	case(ALU_OP)
-		A_NOP:	ALU_OUT = 32'h0;
-		A_ADD:	ALU_OUT = ALU_A + ALU_B;
-		A_SUB:	ALU_OUT = ALU_A - ALU_B;
-		A_AND:	ALU_OUT = ALU_A & ALU_B;
-		A_OR:		ALU_OUT = ALU_A | ALU_B;
-		A_XOR:	ALU_OUT = ALU_A ^ ALU_B;
-		A_NOR:	ALU_OUT = ~(ALU_A | ALU_B);
-		default: ALU_OUT = 32'h0;
-	endcase
-end
+ALU u_ALU1(
+.ALU_A	(A),
+.ALU_B	(B),
+.ALU_OP	(OP),
+.ALU_OUT	(tempOUT1)
+);
+
+wire	[31:0]	tempOUT2;
+
+ALU u_ALU2(
+.ALU_A	(tempOUT1),
+.ALU_B	(B),
+.ALU_OP	(OP),
+.ALU_OUT	(tempOUT2)
+);
+
+wire	[31:0]	tempOUT3;
+
+ALU u_ALU3(
+.ALU_A	(tempOUT1),
+.ALU_B	(tempOUT2),
+.ALU_OP	(OP),
+.ALU_OUT	(tempOUT3)
+);
+
+ALU u_ALU4(
+.ALU_A	(tempOUT3),
+.ALU_B	(tempOUT2),
+.ALU_OP	(OP),
+.ALU_OUT	(OUT)
+);
 
 endmodule

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    12:35:33 03/14/2017 
+// Create Date:    22:33:45 03/15/2017 
 // Design Name: 
-// Module Name:    ALU 
+// Module Name:    ALU4 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module ALU(
+module ALU4(
 input	signed	[31:0]	ALU_A,	//操作数A
 input	signed	[31:0]	ALU_B,	//操作数B
 input				[4:0]		ALU_OP,	//运算符
